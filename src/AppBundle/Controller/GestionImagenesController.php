@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\FotoType;
+use AppBundle\Form\FotoMasiveType;
 use AppBundle\Entity\Imagen;
 
 
@@ -67,6 +68,44 @@ class GestionImagenesController extends Controller
         return $this->render('gestionImagenes/listadoImagen.html.twig', array("imagenes"=>$imagenes));
         
     }
+     /**
+     * @Route("/cargaMasiva", name="cargaMasiva")
+     */
+    public function cargaMasivaAction(Request $request)
+    {   
+       
+        $repository = $this->getDoctrine()->getRepository(Imagen::class);
+        $imagenNueva = $repository->findAll();
+        // hacemos constructor de form
+       // $form = $this->createForm(FotoType::class, $imagenNueva); 
+       $form = $this->createForm(new FotoMasiveType(), $imagenNueva); 
+       // Recogemos la info
+       $form->handleRequest($request);
+       // validaciones
+       if ($form->isSubmitted() && $form->isValid()) {
+             // rellenamos el entity imagen
+            $imagenNueva = $form->getData();
+            $fotoFile = $imagenNueva->getImage();
+            $fileName = $this->generateUniqueFileName().'.'.$fotoFile->guessExtension();
+
+            // moves the file to the directory where brochures are stored
+            $fotoFile->move(
+                $this->getParameter('img_directory'),
+                $fileName
+            );
+            $imagenNueva->setImage($fileName);
+            //$imagenNueva->setTop(0);
+            $imagenNueva->setFechaCreacion(new \DateTime());
+           
+            // almacenar nueva imagen
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($imagenNueva);
+            $em->flush();
+            return $this->redirectToRoute('imagen', array('id' => $imagenNueva->getId()));
+        
+    }
+    return $this->render('gestionImagenes/cargaMasiva.html.twig', array('form'=>$form->createView()));
+}
 
        /**
      * @Route("/borrar/{id}", name="borrarImagen")

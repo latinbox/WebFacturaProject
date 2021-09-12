@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block titulo %}Login Usuario{% endblock %}
+{% block contenido %}
+<div class="container">
+
+<h1 class="mt-4 mb-3">Login de Usuario</h1>   
+
+<div class="row">
+    <div class="col-lg-6">
+        <form action="{{ path('login') }}" method="post">
+        <div class="control-group form-group">
+        <div class="controls">
+            <label for="username">Usuario:</label>
+            <input class="form-control" type="text" id="username" name="_username" value="" />
+        </div>
+        </div>
+
+            <label for="password">Contraseña:</label>
+            <input class="form-control" type="password" id="password" name="_password" />
+
+    {#
+        If you want to control the URL the user
+        is redirected to on success (more details below)
+        <input type="hidden" name="_target_path" value="/account" />
+    #}
+<br>
+    <button class="btn btn-primary" type="submit">login</button>
+</form>
+    </div>
+    <div class="col-md-6">
+        <h2 class="fw-bolder">¿Cómo Registrarse?</h2>
+        <p class="lead fw-normal text-muted mb-0">Con el Registro de usuario usted podrá crear, editar y eliminar las imágenes. Si usted Administrador además de crear, editar y eliminar, usted podrá Aprobar/Desaprobar Fotos y realizar importación masiva. Si usted no está registrado solo podrá ver el home de imágenes.<a href="{{ path('registro') }}" class="nav-link">Registrarse</a></div>
+</div>
+</div>
+        
+</section>
+
+    
+
+
+
+{% endblock %}
+
