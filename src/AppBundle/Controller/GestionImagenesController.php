@@ -15,13 +15,19 @@ use AppBundle\Entity\Imagen;
 class GestionImagenesController extends Controller
 {
      /**
-     * @Route("/nuevaImagen", name="nuevaImagen")
+     * @Route("/nuevaImagen/{id}", name="nuevaImagen")
      */
-    public function nuevaImagenAction(Request $request)
+    // Sirve para editar elemento
+    public function nuevaImagenAction(Request $request, $id=null)
     {   
-        
-        // creamos imagen
-        $imagenNueva = new Imagen();
+        if($id){
+            $repository = $this->getDoctrine()->getRepository(Imagen::class);
+            $imagenNueva = $repository->find($id);
+         
+        } else { 
+            $imagenNueva = new Imagen();
+        }
+      
         // hacemos constructor de form
        // $form = $this->createForm(FotoType::class, $imagenNueva); 
        $form = $this->createForm(new FotoType(), $imagenNueva); 
@@ -51,7 +57,33 @@ class GestionImagenesController extends Controller
     }
         return $this->render('gestionImagenes/nuevaImagen.html.twig', array('form'=>$form->createView()));
     }
+    /**
+     * @Route("/listadoImagen", name="listadoImagen")
+     */
+    public function listaImagenAction(Request $request)
+    {   
+        $repository = $this->getDoctrine()->getRepository(Imagen::class);
+        $imagenes = $repository->findAll();
+        return $this->render('gestionImagenes/listadoImagen.html.twig', array("imagenes"=>$imagenes));
+        
+    }
 
+       /**
+     * @Route("/borrar/{id}", name="borrarImagen")
+     */
+    // Sirve para editar elemento
+    public function borrarImagenAction(Request $request, $id=null)
+    {   
+        if($id){
+            $repository = $this->getDoctrine()->getRepository(Imagen::class);
+            $imagen = $repository->find($id);
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($imagen);
+            $em->flush();
+        }
+           
+            return $this->redirectToRoute('listadoImagen');
+    }
         /**
      * @return string
      */

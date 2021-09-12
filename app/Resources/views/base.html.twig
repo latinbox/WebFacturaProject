@@ -6,38 +6,49 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="{{ asset('css/modern-business.css" rel="stylesheet') }}>
+    
+    {# <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css"> #}
+
     {% block stylesheets %}{% endblock %}
 </head>
 <body class="d-flex flex-column h-100">
-    <main class="flex-shrink-0">
+{# Menu de Navegacion  #}
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div class="container px-5">
                         <a class="navbar-brand" href="{{ path('homepage') }}">GalleryApp</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                                <li class="nav-item"><a class="nav-link" href="{{ path('nosotros') }}">Nosotros</a></li>
-                                <li class="nav-item"><a class="nav-link" href="index.html">Galería</a></li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Login</a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                        <li><a class="dropdown-item" href="blog-home.html">Registro</a></li>
-                                        <li><a class="dropdown-item" href="blog-post.html">Logout</a></li>
-                                    </ul>
-                                </li>                       
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('nosotros') }}">Nosotros</a>
+                                </li>
+                               <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Gestión Galería</a>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                            <li><a class="dropdown-item" href="{{path('nuevaImagen')}}">Crear Nueva</a></li>
+                                            <li><a class="dropdown-item" href="{{path('listadoImagen')}}">Ver listado</a></li>
+                                            <li><a class="dropdown-item" href="{{path('nuevaImagen')}}">Carga masiva</a></li>
+                                        </ul>
+                                </li>
+                                 <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+                                    <li><a class="dropdown-item" href="portfolio-overview.html">Portfolio Overview</a></li>
+                                    <li><a class="dropdown-item" href="portfolio-item.html">Portfolio Item</a></li>
+                                </ul>
+                            </li>                        
                             </ul>
                         </div>
                     </div>
             </nav>
-    </main>
-   
+   {# Menu de Navegacion  #}
     
     {% block contenido %}{% endblock %}
       <!-- Footer-->
         <footer class="bg-dark py-4 mt-auto">
             <div class="container px-5">
                 <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                    <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2021</div></div>
+                    <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; CCGD 2021</div></div>
                     <div class="col-auto">
                         <a class="link-light small" href="#!">Privacy</a>
                         <span class="text-white mx-1">&middot;</span>
@@ -49,11 +60,10 @@
             </div>
         </footer>
       {% block footer %}{% endblock %}
-    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    
+  
     {% block javascripts %}{% endblock %}
     
     
