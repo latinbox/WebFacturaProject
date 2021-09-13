@@ -5,9 +5,13 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use AppBundle\Form\FotoType;
 use AppBundle\Form\FotoMasiveType;
 use AppBundle\Entity\Imagen;
+
 
 
  /**
@@ -47,6 +51,7 @@ class GestionImagenesController extends Controller
                 $fileName
             );
             $imagenNueva->setImage($fileName);
+   
             //$imagenNueva->setTop(0);
             $imagenNueva->setFechaCreacion(new \DateTime());
            
@@ -73,12 +78,45 @@ class GestionImagenesController extends Controller
      */
     public function cargaMasivaAction(Request $request)
     {   
+        if (isset($_POST['submit'])) {
+ 
+            $file_mimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+             
+            if(isset($_FILES['file']['name']) && in_array($_FILES['file']['type'], $file_mimes)) {
+             
+                $arr_file = explode('.', $_FILES['file']['name']);
+                $extension = end($arr_file);
+             
+                if('csv' == $extension) {
+                    $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+                } else {
+                    $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                }
+         
+                $spreadsheet = $reader->load($_FILES['file']['tmp_name']);
+         
+                $sheetData = $spreadsheet->getActiveSheet()->toArray();
+                 
+                if (!empty($sheetData)) {
+                    for ($i=1; $i<count($sheetData); $i++) {
+                        $name = $sheetData[$i][0];
+                        $email = $sheetData[$i][1];
+        $sql = "INSERT INTO USERS(name, email) VALUES('$name', '$email')";
+        
        
+                    }
+                }
+            }
+        }
+        
         $repository = $this->getDoctrine()->getRepository(Imagen::class);
         $imagenNueva = $repository->findAll();
+
+        $imagenNueva = new Imagen();
+      
         // hacemos constructor de form
        // $form = $this->createForm(FotoType::class, $imagenNueva); 
-       $form = $this->createForm(new FotoMasiveType(), $imagenNueva); 
+       $form = $this->createForm(new FotoType(), $imagenNueva); 
        // Recogemos la info
        $form->handleRequest($request);
        // validaciones
@@ -102,10 +140,11 @@ class GestionImagenesController extends Controller
             $em->persist($imagenNueva);
             $em->flush();
             return $this->redirectToRoute('imagen', array('id' => $imagenNueva->getId()));
-        
     }
-    return $this->render('gestionImagenes/cargaMasiva.html.twig', array('form'=>$form->createView()));
-}
+        return $this->render('gestionImagenes/cargaMasiva.html.twig', array('form'=>$form->createView()));
+    }
+ 
+
 
        /**
      * @Route("/borrar/{id}", name="borrarImagen")
