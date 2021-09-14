@@ -13,9 +13,9 @@ class FotoType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('image', 'file', array('attr'=>array('onChange' => 'onChange(event)')))
-            ->add('top')
-            ->add('guardar', 'submit')
+            ->add('image','file',array('attr'=>array('onChange' => 'onChange(event)'),
+            "data_class" => null))
+            ->add('save', 'submit')
         ;
     }
 

@@ -1,6 +1,6 @@
 var tiposValidos = [
-    'image/jpeg',
-    'image/png',
+    'image/csv',
+    'image/xlsx'
 ];
 function validarTipos(file) {
     for(var i=0; i<tiposValidos.length; i++) {

@@ -1,0 +1,5 @@
+_assetic:
+    resource: .
+    type: assetic
+_app:
+    resource: 'C:\Users\Camilo\Documents\proyectoWebFactura\image_blog\app/config/routing_dev.yml'

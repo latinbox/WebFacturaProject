@@ -3,4 +3,9 @@ app:
     type: annotation
 logout:
     path: /logout
+upload:
+    pattern:  /app/
+    defaults: { _controller: AppBundle:GestionController:CargaMasiva }
+    options:
+        expose: true
     
